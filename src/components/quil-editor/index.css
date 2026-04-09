@@ -1,0 +1,37 @@
+.quill-editor-wrapper .ql-toolbar {
+  border-radius: 6px 6px 0 0;
+  border-color: #d9d9d9;
+  background: #fafafa;
+}
+
+.quill-editor-wrapper .ql-container {
+  border-radius: 0 0 6px 6px;
+  border-color: #d9d9d9;
+  font-size: 14px;
+}
+
+.quill-editor-wrapper .ql-editor {
+  min-height: 250px;
+}
+
+/* 聚焦时的样式 */
+.quill-editor-wrapper .ql-editor:focus {
+  outline: none;
+}
+
+/* 自定义图片样式 */
+.quill-editor-wrapper .ql-editor img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin: 8px 0;
+}
+
+.has-error .quill-editor-wrapper .ql-toolbar,
+.has-error .quill-editor-wrapper .ql-container {
+  border-color: #ff4d4f;
+}
+
+.quill-editor-wrapper .ql-container .ql-snow {
+  min-height: 600px;
+}

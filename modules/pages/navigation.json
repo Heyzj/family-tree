@@ -1,0 +1,14 @@
+{
+  "homeNav": [
+    { "path": "/#top", "label": "首页", "icon": "HomeOutlined" },
+    { "path": "/#origins", "label": "渊源与传承", "icon": "BookOutlined" },
+    { "path": "/#figures", "label": "先贤风采", "icon": "TeamOutlined" },
+    { "path": "/#events", "label": "家族纪事", "icon": "PictureOutlined" },
+    { "path": "/members", "label": "家族成员", "icon": "TeamOutlined" }
+  ],
+  "otherNav": [
+    { "path": "/#top", "label": "返回首页", "icon": "HomeOutlined" },
+    { "path": "/history", "label": "家族渊源", "icon": "BookOutlined" },
+    { "path": "/data-config", "label": "数据配置", "icon": "SettingOutlined" }
+  ]
+}
