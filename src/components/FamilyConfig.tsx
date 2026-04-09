@@ -273,8 +273,7 @@ const FamilyConfig: React.FC<FamilyConfigProps> = ({ familyData, setFamilyData }
       )
       message.success('保存成功')
       navigate('/members')
-    } catch (error) {
-      console.error('保存族谱数据失败:', error)
+    } catch {
       message.error('保存失败')
     }
   }, [convertToFamilyData, setFamilyData, navigate])

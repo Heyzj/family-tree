@@ -8,7 +8,6 @@
   ],
   "otherNav": [
     { "path": "/#top", "label": "返回首页", "icon": "HomeOutlined" },
-    { "path": "/history", "label": "家族渊源", "icon": "BookOutlined" },
     { "path": "/data-config", "label": "数据配置", "icon": "SettingOutlined" }
   ]
 }

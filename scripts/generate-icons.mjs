@@ -20,8 +20,6 @@ const sourceBuffer = fs.readFileSync(sourcePath);
 
 // 生成不同尺寸的 PNG 图标
 async function generateIcons() {
-  console.log('开始生成图标...');
-
   // 生成 Mac icns 需要的各种尺寸
   const macSizes = [16, 32, 64, 128, 256, 512, 1024];
   const macIconDir = path.join(buildDir, 'mac-icons');
@@ -34,7 +32,6 @@ async function generateIcons() {
       .resize(size, size)
       .png()
       .toFile(path.join(macIconDir, `icon_${size}x${size}.png`));
-    console.log(`✓ 生成 mac-icons/icon_${size}x${size}.png`);
   }
 
   // 生成 512x512 PNG（用于 Linux 和通用用途）
@@ -42,7 +39,6 @@ async function generateIcons() {
     .resize(512, 512)
     .png()
     .toFile(path.join(buildDir, 'icon.png'));
-  console.log('✓ 生成 icon.png (512x512)');
 
   // 生成 Windows ICO 需要的 PNG 文件
   const winSizes = [16, 32, 48, 64, 128, 256];
@@ -60,31 +56,21 @@ async function generateIcons() {
       .toFile(pngPath);
     winPngPaths.push(pngPath);
   }
-  console.log('✓ 生成 Windows 图标所需的 PNG 文件');
 
   // 使用 png-to-ico 生成 .ico 文件
   try {
     const icoBuffer = await pngToIco(winPngPaths);
     fs.writeFileSync(path.join(buildDir, 'icon.ico'), icoBuffer);
-    console.log('✓ 生成 icon.ico (Windows)');
-  } catch (err) {
-    console.error('生成 .ico 文件失败:', err.message);
+  } catch {
+    // 生成失败时静默处理
   }
 
   // 生成 Mac .icns 文件
   try {
     await generateIcns(macIconDir, path.join(buildDir, 'icon.icns'));
-    console.log('✓ 生成 icon.icns (Mac)');
-  } catch (err) {
-    console.error('生成 .icns 文件失败:', err.message);
-    console.log('  你可以手动运行: iconutil -c icns build/mac-icons.iconset');
+  } catch {
+    // 生成失败时静默处理
   }
-
-  console.log('\n✅ 图标生成完成！');
-  console.log('\n生成的文件:');
-  console.log('  - build/icon.ico (Windows)');
-  console.log('  - build/icon.icns (Mac)');
-  console.log('  - build/icon.png (Linux/通用)');
 }
 
 // 生成 Mac .icns 文件
@@ -121,4 +107,6 @@ async function generateIcns(iconDir, outputPath) {
   fs.rmSync(iconsetDir, { recursive: true, force: true });
 }
 
-generateIcons().catch(console.error);
+generateIcons().catch(() => {
+  // 错误处理
+});

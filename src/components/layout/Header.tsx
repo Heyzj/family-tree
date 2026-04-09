@@ -97,23 +97,55 @@ const Header: React.FC = () => {
   }, [iconMap, isHomeNavActive])
 
   // 获取当前选中的导航值
-  const currentNavValue = useMemo(() => {
+  const currentNavValue = useMemo<SegmentedProps['value']>(() => {
     // 在首页，根据 hash 判断当前选中的锚点
     if (currentPath === '/') {
       const pageHash = location.hash || '#top'
       const currentLink = navLinks.find((link) => link.path === `/${pageHash}`)
-      return currentLink?.path
+      return currentLink?.path ?? '__no_selection__'
     } else {
+      // 对于 FigureDetail 和 History 页面，不选中任何导航项
+      if (currentPath.startsWith('/figure/') || currentPath === '/history') {
+        return '__no_selection__'
+      }
       // 其他页面
       const currentLink = navLinks.find((link) => link.path === currentPath)
-      return currentLink?.path
+      return currentLink?.path ?? '__no_selection__'
     }
   }, [currentPath, location.hash, navLinks])
 
   // 处理 Segmented 切换
   const handleSegmentedChange: SegmentedProps['onChange'] = (value) => {
     const path = value as string
-    navigate(path)
+    const hashIndex = path.indexOf('#')
+
+    if (hashIndex !== -1) {
+      const hash = path.substring(hashIndex)
+      const targetPath = path.substring(0, hashIndex) || '/'
+
+      // 如果已经在目标页面（首页），直接滚动到锚点
+      if (location.pathname === targetPath) {
+        const element = document.querySelector(hash)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' })
+        }
+        // 使用 navigate 更新 URL hash，确保 React Router 状态同步
+        navigate(path, { replace: true })
+      } else {
+        // 需要跳转到其他页面，先导航再滚动
+        navigate(path)
+        // 延迟滚动，等待页面渲染完成
+        setTimeout(() => {
+          const element = document.querySelector(hash)
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' })
+          }
+        }, 100)
+      }
+    } else {
+      // 没有 hash 的普通路由跳转
+      navigate(path)
+    }
   }
 
   return (

@@ -152,8 +152,7 @@ const DataConfig: React.FC = () => {
           setEventsMoreCtaLabel(homeData.events.moreCta?.label || '')
         }
       }, 0)
-    } catch (error) {
-      console.error('读取home.json文件失败:', error)
+    } catch {
       message.error('读取数据失败，请重试')
     }
   }, [])
@@ -199,8 +198,7 @@ const DataConfig: React.FC = () => {
           })
         }, 0)
       }
-    } catch (error) {
-      console.error('读取family.json文件失败:', error)
+    } catch {
       // 如果文件不存在，创建默认根节点
       const rootMember: Member = {
         id: uuidv4(),
@@ -284,8 +282,7 @@ const DataConfig: React.FC = () => {
       const base64 = await fileToBase64(file)
       setOriginFormData((prev) => ({ ...prev, image: base64 }))
       message.success('图片上传成功')
-    } catch (error) {
-      console.log(error)
+    } catch {
       message.error('图片上传失败')
     }
     return false // 阻止默认上传行为
@@ -297,8 +294,7 @@ const DataConfig: React.FC = () => {
       const base64 = await fileToBase64(file)
       setHeroFormData((prev) => ({ ...prev, backgroundImage: base64 }))
       message.success('背景图片上传成功')
-    } catch (error) {
-      console.log(error)
+    } catch {
       message.error('背景图片上传失败')
     }
     return false // 阻止默认上传行为
@@ -314,8 +310,7 @@ const DataConfig: React.FC = () => {
         return newData
       })
       message.success('图片上传成功')
-    } catch (error) {
-      console.log(error)
+    } catch {
       message.error('图片上传失败')
     }
     return false // 阻止默认上传行为
@@ -331,9 +326,8 @@ const DataConfig: React.FC = () => {
         return newData
       })
       message.success('图片上传成功')
-    } catch (error) {
-      console.log(error)
-      message.error('图片上传失败')
+    } catch {
+      message.error('图片上传成功')
     }
     return false // 阻止默认上传行为
   }
@@ -374,15 +368,12 @@ const DataConfig: React.FC = () => {
               JSON.stringify(homeData, null, 2),
             )
 
-            console.log('保存首页文案数据成功:', filePath)
             message.success('数据保存成功')
-          } catch (error) {
-            console.error('保存文件失败:', error)
+          } catch {
             message.error('保存失败，请重试')
           }
         })
-        .catch((error) => {
-          console.error('表单验证失败:', error)
+        .catch(() => {
           message.error('表单验证失败，请检查必填项')
         })
     }
@@ -426,15 +417,12 @@ const DataConfig: React.FC = () => {
               JSON.stringify(homeData, null, 2),
             )
 
-            console.log('保存渊源与传承数据成功:', filePath)
             message.success('数据保存成功')
-          } catch (error) {
-            console.error('保存文件失败:', error)
+          } catch {
             message.error('保存失败，请重试')
           }
         })
-        .catch((error) => {
-          console.error('表单验证失败:', error)
+        .catch(() => {
           message.error('表单验证失败，请检查必填项')
         })
     }
@@ -477,15 +465,12 @@ const DataConfig: React.FC = () => {
               JSON.stringify(homeData, null, 2),
             )
 
-            console.log('保存先贤风采数据成功:', filePath)
             message.success('数据保存成功')
-          } catch (error) {
-            console.error('保存文件失败:', error)
+          } catch {
             message.error('保存失败，请重试')
           }
         })
-        .catch((error) => {
-          console.error('表单验证失败:', error)
+        .catch(() => {
           message.error('表单验证失败，请检查必填项')
         })
     }
@@ -528,15 +513,12 @@ const DataConfig: React.FC = () => {
               JSON.stringify(homeData, null, 2),
             )
 
-            console.log('保存家族纪事数据成功:', filePath)
             message.success('数据保存成功')
-          } catch (error) {
-            console.error('保存文件失败:', error)
+          } catch {
             message.error('保存失败，请重试')
           }
         })
-        .catch((error) => {
-          console.error('表单验证失败:', error)
+        .catch(() => {
           message.error('表单验证失败，请检查必填项')
         })
     }
@@ -560,8 +542,7 @@ const DataConfig: React.FC = () => {
         await window.electronAPI?.writeFile(result.filePath, existingData)
         message.success('文案配置导出成功')
       }
-    } catch (error) {
-      console.error('导出文案配置失败:', error)
+    } catch {
       message.error('导出失败，请重试')
     }
   }
@@ -597,14 +578,12 @@ const DataConfig: React.FC = () => {
           message.success('文案配置导入成功')
           // 重新加载数据
           loadHomeData()
-        } catch (error) {
-          console.error('解析 JSON 文件失败:', error)
+        } catch {
           message.error('JSON 文件格式不正确')
         }
       }
       reader.readAsText(file)
-    } catch (error) {
-      console.error('导入文案配置失败:', error)
+    } catch {
       message.error('导入失败，请重试')
     }
     return false
@@ -628,8 +607,7 @@ const DataConfig: React.FC = () => {
         await window.electronAPI?.writeFile(result.filePath, existingData)
         message.success('族谱导出成功')
       }
-    } catch (error) {
-      console.error('导出族谱失败:', error)
+    } catch {
       message.error('导出失败，请重试')
     }
   }
@@ -660,14 +638,12 @@ const DataConfig: React.FC = () => {
           message.success('族谱导入成功')
           // 重新加载数据
           loadFamilyData()
-        } catch (error) {
-          console.error('解析 JSON 文件失败:', error)
+        } catch {
           message.error('JSON 文件格式不正确')
         }
       }
       reader.readAsText(file)
-    } catch (error) {
-      console.error('导入族谱失败:', error)
+    } catch {
       message.error('导入失败，请重试')
     }
     return false

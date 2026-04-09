@@ -55,8 +55,8 @@ const Members: React.FC = () => {
         if (familyJson.version && familyJson.members) {
           setFamilyData(familyJson)
         }
-      } catch (error) {
-        console.error('读取family.json文件失败:', error)
+      } catch {
+        // 读取失败时静默处理
       }
     }
 

@@ -1,21 +1,33 @@
 import React from 'react';
 import SectionTitle from '../components/ui-custom/SectionTitle';
-import { readHomePageData, hasHomePageData, type HomePageDataOrEmpty } from '@modules/pages/home';
+import { readHomePageData, type HomePageDataOrEmpty } from '@modules/pages/home';
 
 const History: React.FC = () => {
   const [data, setData] = React.useState<HomePageDataOrEmpty>(null);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     let alive = true;
     readHomePageData().then((next) => {
-      if (alive) setData(next);
+      if (alive) {
+        setData(next);
+        setLoading(false);
+      }
     });
     return () => {
       alive = false;
     };
   }, []);
 
-  if (!data || !hasHomePageData()) {
+  if (loading) {
+    return (
+      <div className="py-20 px-20 min-h-[60vh] flex items-center justify-center">
+        <div className="text-muted-foreground">加载中...</div>
+      </div>
+    );
+  }
+
+  if (!data) {
     return (
       <div className="py-20 px-20 min-h-[60vh] flex flex-col items-center justify-center">
         <div className="text-center">

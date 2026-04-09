@@ -45,9 +45,10 @@ export type HomePageData = {
 
 export type HomePageDataOrEmpty = HomePageData | null
 
-function isEmptyData(): boolean {
-  const json = homeJson as Record<string, unknown>
-  return !json || Object.keys(json).length === 0
+function isEmptyData(data: unknown): boolean {
+  if (!data) return true
+  const json = data as Record<string, unknown>
+  return Object.keys(json).length === 0
 }
 
 export function homeStore() {
@@ -58,14 +59,15 @@ export function homeStore() {
 }
 
 export async function readHomePageData(): Promise<HomePageDataOrEmpty> {
-  if (isEmptyData()) {
+  const data = await homeStore().read()
+  if (isEmptyData(data)) {
     return null
   }
-  return await homeStore().read()
+  return data
 }
 
 export function hasHomePageData(): boolean {
-  return !isEmptyData()
+  return !isEmptyData(homeJson)
 }
 
 export async function writeHomePageData(next: HomePageData) {

@@ -50,15 +50,7 @@ const EventDetail: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-6xl mx-auto px-6 py-16">
-        <div className="flex items-center gap-4 mb-12">
-          <Link to="/" className="text-primary hover:underline">
-            返回首页
-          </Link>
-          <span className="text-muted-foreground">/</span>
-          <span className="text-foreground font-medium">{event.name}</span>
-        </div>
-
+      <div className="max-w-6xl mx-auto px-6 pt-24 pb-16">
         <div className="space-y-12">
           <div className="relative">
             {event.img && (

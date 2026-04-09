@@ -28,13 +28,24 @@ export class ModuleJsonStore<T> {
     return keyToDataFilePath(this.key)
   }
 
+  private isEmptyData(data: unknown): boolean {
+    if (!data) return true
+    if (typeof data !== 'object') return false
+    return Object.keys(data).length === 0
+  }
+
   async read(): Promise<T> {
     // Electron: read from userData override if exists, else fallback
     if (hasElectronApi(window.electronAPI)) {
       try {
         const filePath = this.getDataFilePath()
         const raw = await window.electronAPI.readFile(filePath)
-        return JSON.parse(raw) as T
+        const parsed = JSON.parse(raw) as T
+        // 如果读取到的数据为空对象，返回默认数据
+        if (this.isEmptyData(parsed)) {
+          return this.defaultData
+        }
+        return parsed
       } catch {
         return this.defaultData
       }

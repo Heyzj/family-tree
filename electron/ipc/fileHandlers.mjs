@@ -55,17 +55,14 @@ export async function initializeDataInDirectory(targetDir) {
         try {
           const data = await fs.readFile(fullSourcePath, 'utf-8')
           await fs.writeFile(targetPath, data, 'utf-8')
-          console.log(`已初始化数据文件: ${filename}`)
-        } catch (err) {
-          console.error(`复制 ${filename} 失败:`, err.message)
+        } catch {
+          // 复制失败时静默处理
         }
       }
     }
     
-    console.log('数据目录:', targetDir)
     return true
   } catch (err) {
-    console.error('初始化数据失败:', err)
     throw err
   }
 }
