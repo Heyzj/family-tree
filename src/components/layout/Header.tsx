@@ -39,7 +39,7 @@ const Header: React.FC = () => {
     return () => {
       alive = false
     }
-  }, [])
+  }, [location.pathname])
 
   const familyName = heroConfig.familyName || ''
   const navTitle = heroConfig.navTitle || ''

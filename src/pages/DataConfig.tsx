@@ -570,6 +570,12 @@ const DataConfig: React.FC = () => {
           // 使用相对路径，后端会重定向到 userData 目录
           const filePath = 'modules/pages/home.json'
 
+          // 检查文件是否存在，不存在则先创建空文件
+          const existingContent = await window.electronAPI?.readFile(filePath)
+          if (existingContent === null || existingContent === undefined || existingContent === '') {
+            await window.electronAPI?.writeFile(filePath, '{}')
+          }
+
           await window.electronAPI?.writeFile(
             filePath,
             JSON.stringify(jsonData, null, 2),
@@ -629,6 +635,12 @@ const DataConfig: React.FC = () => {
 
           // 使用相对路径，后端会重定向到 userData 目录
           const filePath = 'modules/pages/family.json'
+
+          // 检查文件是否存在，不存在则先创建空文件
+          const existingContent = await window.electronAPI?.readFile(filePath)
+          if (existingContent === null || existingContent === undefined || existingContent === '') {
+            await window.electronAPI?.writeFile(filePath, '{}')
+          }
 
           await window.electronAPI?.writeFile(
             filePath,
